@@ -1,0 +1,485 @@
+示例3-1 路由的基本定义
+//route/web.php
+Route::get('/',function(){
+	return 'Hello, World!';
+});
+
+示例3-2 简单的网站
+Route::get('/',function(){
+	return view('welcome');
+}); 
+Route::get('about',function(){
+	return view('about');
+});
+Route::get('product',function(){
+	return view('product');
+});
+Route::get('services',function(){
+	return view('services');
+});
+
+示例3-3 路由动词
+Route::get('/', function(){}{
+	return 'Hello, World!';
+});
+Route::post('/',function(){});
+Route::put('/',function(){});
+Route::delete('/',function(){});
+Route::any('/',function(){});
+Route::match(['get','post'],'/',function(){});
+
+示例3-4 路由调用控制器方法
+Route::get('/','WelcomeController@index');
+
+示例3-5 路由参数
+Route::get('users/{id}/friends',function($id){
+	//
+});
+
+示例3-6 可选路由参数
+Route::get('users/{id?}', function($id = 'fallbackId'){
+	//
+});
+
+示例3-7 通过正则表达式来定义路由
+Route::get('users/{id}',function($id){
+	//
+})->where('id', '[0-9]+');
+
+Route::get('users/{username}',function($username){
+	//
+})->where('username','[A-Za-z]+');
+
+Route::get('posts/{id}/{slug}',function($id,$slug){
+	//
+})->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+');
+
+示例3-8 URL助手
+<a href="<?php echo url('/'); ?>">
+//输出<a href="http://myapp.com/">
+
+示例3-9 定义路由名称
+Route::get('members/{id}', 'MembersController@show')->name('members.show');
+
+<a href="<?php route('members.show', ['id' => 14]); ?>">
+
+示例3-10 定义一个路由组
+Route::group([],function(){
+	Route::get('hello',function(){
+		return 'Hello';
+	});
+	Route::get('world',function(){
+		return 'World';
+	});
+});
+
+示例3-11 将一组路由限制为只允许登录用户访问
+Route::group(['middleware' => 'auth'], function(){
+	Route::get('dashboard', function(){
+		return view('dashboard');
+	});
+	Route::get('account', function(){
+		return view('account');
+	});
+
+});
+
+示例3-12 为一组路由设置路径前缀
+Route::group(['prefix' => 'api'], function(){
+	Route::get('/' ,function(){
+		//path /api
+	});
+	Route::get('users', function(){
+		//path /api/users
+	});
+});
+
+示例3-13 子域名路由
+Route::group(['domain' => 'api.myapp.com'], function(){
+	Route::get('/',function(){
+		//
+	});
+});
+
+示例3-14 参数化的子域名路由
+Route::group(['domain' => '{account}.myapp.com'],function(){
+	Route::get('/', function($account){
+		//
+	});
+	Route::get('users/{id}',function($account,$id){
+		//
+	});
+});
+示例3-15 路由组命名空间前缀
+Route::get('/','ControllerA@index');
+
+Route::group(['namespace' => 'API'] ,function(){
+	// App\Http\Controllers\API\ControllerB
+	Route::get('api/', 'ControllerB@index');
+});
+
+示例3-16 路由组名称前缀
+Route::group(['as' => 'users.'. 'prefix' => 'users'], function(){
+	Route::group(['as' => 'comments.', 'prefix' => 'comments'],function(){
+		Route::get('{id}',function(){
+			//
+		})->name('show');
+	});
+});
+
+示例3-17 简单的view()用法演示
+Route::get('/', function(){
+	return view('home');
+});
+
+示例3-18 传递变量给视图
+Route::get('task', function(){
+	return view('tasks.index')->with('tasks', Task::all());
+});
+
+示例3-19 默认生成的控制器
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+
+class TaskController extends Controller{
+
+}
+
+示例3-20 简单的控制器例子
+<?php
+use App\Http\Controllers\Controller;
+class TaskController extends Controller
+{
+	public function home(){
+		return 'Hello, World!';
+	}
+}
+
+示例3-21 为简单的控制器建立路由
+//Routes/web.php
+<?php
+
+Route::get('/', 'TaskController@home');
+
+示例3-22 通用控制器方法示例
+//TaskController.php
+...
+public function index()
+{
+	return view('tasks.index')
+	->with('tasks', Task::all());
+}
+
+示例3-23 绑定基本的表单操作
+//routes/web.php
+Route::get('tasks/create', 'TasksController@create');
+Route::post('tasks', 'TasksController@store');
+
+示例2-24 创建的表单输入控制器方法
+// TaskController.php
+...
+public function store(){
+	$task = new Task;
+	$task->title = Input::get('title');
+	$task->description = Input::get('description');
+	$task->save();
+	
+	return redirect('tasks');
+}
+
+示例3-25 通过制定的方式实现控制器方法注入
+//TasksController.php
+...
+public function store(\Illuminate\Http\Request $request){
+	$task = new Task;
+	$task->title = $request->input('title');
+	$task->description = $request->input('description');
+	$task->save();
+	
+	return redirect('tasks');
+}
+
+示例3-26 资源控制器绑定
+// routes/web.php
+Route::resource('tasks', 'TasksController');
+
+示例3-27 获取每个路由的资源
+Route::get('conferences/{id}', function($id){
+	$conference = Conference::findOrFail($id);
+});
+
+示例3-28 使用隐式路由模型绑定
+Route::get('conferences/{conference}', function(Conference $conference){
+	return view('conferences.show')->with('conference', $conference);
+});
+
+示例3-29 添加路由模型绑定
+public function boot(Router $router){
+	//只允许parent的boot()方法继续运行
+	parent::boot($router);
+	//执行绑定
+	$router->model('event;, Conference::class);
+}
+
+示例3-30 使用显示路由模型绑定
+Route::get('events/{event}', function(Conference $event){
+	return view('events.show')->with('event',$event);
+});
+
+示例3-31 表单方法欺骗
+<form action="/tasks/5" method="POST">
+	<input type="hidden" name="_method" value="DELETE">
+</form>
+
+示例3-32 CSRF令牌
+<form action="/tasks/5" method="POST">
+	<?php echo csrf_field(); ?>
+	<!-- 或者: -->
+	<input type="hidden" name="_token" value="<?php echo csrf_token();?>">
+</form>
+
+示例3-33 全局绑定CSRF的header
+//在JQuery中
+$.ajaxSetup({
+	headers:{
+		'X-CSRF-TOKEN':$('meta[name="csrf_token"]').attr('content')
+	}
+});
+
+// 在Vue中
+Vue.http.interceptors.push((request,next)=>{
+	request.headers['X-CSRF-TOKEN']=
+		document.querySelector('#token').getAttribute('content');
+		
+	next()
+});
+
+示例3-34 返回重定向的不同方法
+//使用出重定向全局助手生成重定向的响应
+Route::get('redirect-with-helper', function(){
+	return redirect()->to('login');
+});
+
+//使用全局助手的快捷方式
+Route::get('redirect-with-helper-shortcut', function(){
+	return redirect('login');
+});
+
+//使用facade生成重定向响应
+Route::get('redirect-with-facade', function(){
+	return Redirect::to('login');
+});
+
+示例3-35 redirect()->to()
+Route::get('redirect', function(){
+	return redirect()->to('home');
+	//或者使用快捷方式
+	return redirect('home');
+})
+示例3-36 redirect()->route()
+Route::get('redirect', function(){
+	return redirect()->route('conferences.index');
+});
+
+示例3-37 带有参数的 redirect()->route()
+Route::get('redirect', function(){
+
+	return redirect()->route('conferences.show', ['conference' => 99]);
+});
+
+示例3-38 附带数据的重定向
+Route::get('redirect-with-key-value', function(){
+	return redirect('dashboard')->with('error',true);
+});
+
+Route::get('redirect-with-array', function(){
+	return redirect('dashboard')->with(['error' => true, 'message' => 'Whoops!']);777777
+});
+
+示例3-39 表单输入重定向
+Route::get('form', function(){
+	return view('form');
+});
+Route::post('form', function(){
+	return redirect('form')
+		->withInput()
+		->with(['error' =>true, 'message' => 'Whoops!']);
+});
+
+示例3-40 带有错误信息的重定向
+Route::post('form', function(){
+	$validator = Validator::make($request->all(), $this->validationRules);
+	
+	if ($validator->fails()){
+		return redirect('form')
+			-withErrors($validator)
+			->withInput();
+	}
+});
+
+示例3-41 403Forbidden终止
+Route::post('something-you-cant-do', function (Illuminate\Http\Request){
+	abort(403,'you cannot do that!');
+	abort_unless($request->has('magicToken'),403);
+	abort_if($request->user()->isBanned,403);
+});
+
+示例3-42 编写一个简单的POST路由测试
+//AssignmentTest.php
+public function test_post_creates_new_assigment(){
+	$this->post('/assignments', [
+		'title' => 'My great assignment'
+	]);
+	
+	$this->seeInDatabase('assignments',[
+		'title' => 'My great assignment'
+	]);
+}
+
+示例3-42 编写一个简单的GET路由测试
+//AssignmentTest.php
+public function test_list_page_show_assigments(){
+	$assignment = Assignment::create([
+		'title' => 'My great assignment'
+	]);
+	
+	$this->visit('assignments')
+	  ->dee(['My great assignment']);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
