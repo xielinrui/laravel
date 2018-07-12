@@ -1,0 +1,135 @@
+示例7-1 Artisan命令的默认架构
+<?php
+
+namespace App\Console\Commands;
+use Illuminate\Console\Command;
+class WelcomeNewUsers extends Command{
+	/**
+	*控制台命令名称和签名
+	*
+	**@var string
+	*/
+	protected $signature = 'email:newusers';
+	
+	/**
+	*控制台命令描述
+	*
+	**@var string*/
+	protected $description = 'Command description';
+	
+	/**
+	*创建一个新的命令实例
+	*
+	*@return void
+	*/
+	public function __construct(){
+		parent::__construct();
+	}
+	/**
+	*执行控制台命令
+	*
+	*@return mixed
+	*/
+	public function handle(){
+		//
+	}
+}
+
+示例7-2 在控制台内核中注册新命令
+class Kernel extends ConsoleKernel
+{
+	/**
+	* 应用提供的Artisan命令
+	*
+	* @var array
+	*/
+	protected $commands = [
+		\App\Console\Commands\WelcomeNewUsers::class,
+	];
+}
+
+示例7-3 Artisan命令中的handle方法示例
+...
+class WelcomeNewUsers extends Command{
+	public function handle(){
+		User::signedUpThisWeek()->each(function ($User){
+			Mail::send(
+				'emails.welcome',
+				['name' => $user->name],
+				function ($m)use ($user) {
+					$m->to($user->email)->subject('Welcome!');
+				}
+			);
+		});
+	}
+}
+
+示例7-4 重构的代码
+...
+class WelcomeNewUsers extends Command{
+	public function __construct(UserMailer $userMailer){
+		parent::__construct();
+		$this->userMailer = $userMailer;
+	}
+	
+	public function handle(){
+		$this->userMailer->welcomeNewUsers();
+	}
+}
+
+示例7-5 在 Artisan命令中使用数组
+//参数
+php artisan password:reset 1 2 3
+
+//选项
+php artisan password:reset --ids=1 --ids=2 --ids=3
+
+
+示例7-6 为 Artisan参数和选项定义描述文字
+protected $signature = 'password:reset
+						{useId:The ID of the user}
+						{--sendEmail:Whether to send user an email}';
+						
+示例7-7 在 Artisan命令中获取输入
+public function handle(){
+	$arguments = $this-->argument();
+	$userid = $this->argument('userId');
+	$options =$this->option();
+	$sendEmail = $this->option('sendEmail');
+}
+
+示例7-8 在 Artisan命令中输出表
+$headers = ['name','email'];
+$data = [
+	['Dhriti', 'dhriti@amrit.com'],
+	['Moses', 'moses@gutierez.com']
+];
+
+// $data = App\User::all(['name', 'email'])->toArray();
+
+$this->table($headers, $data);
+
+示例7-10 进度条
+$totalUnits =10;
+$this->output->progressStart($totalUnits);
+
+for($i=0;$i<$totalUnits;$i++){
+	sleep(1);
+	$this->output->progressAdvance();
+}
+$this->output->progressFinish();
+
+示例7-11 在其他代码中调用 Artisan 命令
+Route::get('test-artisan', function(){
+	$exitCode = Artisan::call('password:reset', [
+		'userId' => 15, '--sendEmail' =>true
+	]);
+});
+
+示例7-12 在其他命令中调用 Artisan 命令
+public function handle(){
+	$this->callSilent('password:reset',[
+		'userId' => 15
+	]);
+}
+
