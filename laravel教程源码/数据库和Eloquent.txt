@@ -1,0 +1,553 @@
+示例8-1 数据库默认连接列表
+'connections' =>[
+	'sqlite' => [
+		'driver' => 'sqlite',
+		'database' => database_path('database.sqlite'),
+		'prefix' => '',
+	],
+	
+	'mysql' => [
+		'driver' => 'mysql',
+		'host' => env('DB_HOST', 'localhost'),
+		'database' => env('DB_DATABASE', 'forge'),
+		'username' => env('DB_USERNMAE', 'forge'),
+		'password' => env('DB_PASSWORD', ''),
+		'charset' => 'utf8',
+		'collation' => 'utf8_unicode_ci',
+		'prefix' => false,
+		'engine' => null,
+	],
+	
+	'pgsql' => [
+		'driver' => 'pgsql',
+		'host' => env('DB_HOST', 'localhost'),
+		'database' => env('DB_DATABASE', 'forge'),
+		'username' => env('DB_USERNMAE', 'forge'),
+		'password' => env('DB_PASSWORD', ''),
+		'charset' => 'utf8',
+		'prefix' => false,
+		'schema' => 'public',
+	],
+	
+	'sqlsrv' => [
+		'driver' => 'sqlsrv',
+		'host' => env('DB_HOST', 'localhost'),
+		'database' => env('DB_DATABASE', 'forge'),
+		'username' => env('DB_USERNMAE', 'forge'),
+		'password' => env('DB_PASSWORD', ''),
+		'charset' => 'utf8',
+		'prefix' => false,
+	],
+]
+
+示例8-2 Laravel中默认“创建用户表”迁移
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateUsersTable extends Migration{
+	public function up(){
+		Schema::create('users', function(Blueprint $table){
+			$table->increments('id');
+			$table->string('name');
+			$table->string('email')->unique();
+			$table->string('password', 60);
+			$table->rememberToken();
+			$table->timestamps();
+		});
+	}
+	
+	public function down(){
+		Schema::drop('users');
+	}
+}
+
+示例8-3 在迁移中添加列索引
+// 创建列之后
+$table->primary('primary_id');
+$table->primary(['first_name', 'last_name']);
+$table->unique('email');
+$table->unique('email', 'optional_custom_index_name');
+$table->index('amount');
+$table->index('amount', 'optional_custom_index_name');
+
+示例8-4 在迁移中删除列索引
+$table->dropPrimary('contacts_id_primary');
+$table->dropUnique('contacts_email_unique');
+$table->dropIndex('optional_custom_index_name');
+
+示例8-5 使用模型工厂
+factory(Post::class)->create([
+	'title' => 'My greatest post ever'
+]);
+
+factory(User::class, 20)->create()->each(function ($u) use ($post){
+	$post->comments()->save(factory(Comment::class)->make([
+		'user_id' => $u->id
+	]));
+});
+
+示例8-6 为同一个模型定义多个工厂模型
+$factory->define(Contact::class, function(Faker\Generator $faker){
+	return [
+		'name' => $faker->name,
+		'email' => $faker->email,
+	];
+});
+
+$factory->defineAs(Contact::class, 'vip',function (Faker\Generator $faker){
+	return [
+		'name' => $faker->name,
+		'email' => $faker->email,
+		'vip' => true,
+	];
+});
+
+示例8-7 继承工厂类型
+$factory->define(Contact::class, function(Faker\Generator $faker){
+	return [
+		'name' => $faker->name,
+		'email' => $faker->email,
+	];
+});
+
+$factory->defineAs(
+	Contact::class,
+	'vip',
+	function(Faker\Generator $faker) use ($factory){
+		$contact = $factory->raw(Contact::class);
+		return array_merge($contact, ['vip' => true]);
+	});
+	
+示例8-8 原始SQL和查询构造器使用示例
+//基本语句
+DB::statement('drop table users');
+//原始查询和参数绑定
+DB::select('select * from contacts where validated =?',[true]);
+//选择使用流畅构造器
+$users = DB::table('users')->get();
+//joins和其他调用
+DB::table('users')
+	->join('contacts', function($join){
+		$join->on('users.id', '=', 'contacts.user_id')
+			->where('contacts.type', 'donor');
+	})->get();
+	
+示例8-9 一个简单的数据库事务
+DB::transaction(function() use ($userId,$numVotes){
+	//可能失败的DB查询
+	DB::table('users')
+		->where('id', $userId)
+		->update(['votes' => $numVotes]);
+	//当上面的查询失败时，缓存不想执行的查询
+	DB::table('votes')
+		->where('user_id', $userId)
+		->delete();
+});
+
+示例8-10 最简单的Eloquent模型
+<?php
+use Illuminate\Database\Eloquent\Model;
+class Contact extends Model{}
+
+示例8-11 最简单的Eloquent模型实现的操作
+public function save(Request $request){
+	$contact = new Contact();
+	$contact->first_name = $request->input('first_name');
+	$contact->last_name = $request->input('last_name');
+	$contact->email = $request->input('email');
+	$contact->save();
+	return redirect('contacts');
+}
+
+public function show($contactId){
+	return Contact::findOrFail($contactId);
+}
+
+public function vips(){
+	return Contact::where('vip' , true)->get()->map(function($contact){
+		$contact->formalName = "The exalted {$contact->first_name} of the {$contact->last_name}s";
+		
+		return $contact;
+	});
+}
+
+示例8-12 在控制器方法中使用Eloquent的OrFail()方法
+public function show($contactId){
+	return view('contact.show')
+		->with('contact', Contact::findOrFail($contactId));
+}
+
+示例8-13 对 Eloquent 查询进行分块来限制内存使用
+Contact::chunk(100, function($contact){
+	foreach($contacts as $contact){
+		//对$contact进行操作
+	}
+});
+
+示例8-14 通过创建一个新的实例插入 Eloquent 记录
+$contact = new Contact;
+$contact->name = 'Ken Hirata';
+$contact->email = 'ken@hirata.com';
+$contact->save();
+
+$contact = new Contact([
+	'name' => 'Ken Hirata',
+	'email' => 'ken@hirata'
+]);
+$contact->save();
+
+示例8-15 向create()传入一个数组插入 Eloquent 记录
+$contact = Contact::create([
+	'name' => 'Keahi Hale',
+	'email' => 'halek481@yahoo.com'
+]);
+
+示例8-16 通过更新实例的方式更新 Eloquent 记录并保存
+$contact = Contact::find(1);
+$contact->email = 'natalie@parkfamily.com';
+$contact->save();
+
+示例8-17 向update()传入数组以更新一条或多条 Eloquent记录
+Contact::where('create_at','<',Carbon::now()->subYear())
+	->update(['longevity' => 'ancient']);
+
+$contact = Contact::find(1);
+$contact->update(['longevity' => 'ancient']);
+
+示例8-18 使用整个请求输入更新 Eloquent 模型
+//Contact控制器
+public function update(Contact $contact,Request $request){
+	$contact->update($request->all());
+}
+
+示例8-19 通过 Eloquent 的“可填充” 或 “防护” 属性定义批量赋值的字段
+class Contact{
+	protected $fillable = ['name', 'email'];
+	//或
+	protected $guarded = ['id' , 'created_at', 'update_at', 'owner_id'];
+}
+
+示例8-20 在迁移中添加软删除
+Schema::table('contacts', function(Blueprint $table){
+	$table->softDeletes();
+});
+
+示例8-21 在 Eloquent 模型中开启软删除
+<?php
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Contact extends Model{
+	use SoftDeletes;
+	protected $dates = ['deleted_at'];
+}
+
+示例8-22 使用闭包添加全局作用域
+...
+class Contact extends Model{
+	protected static function boot(){
+		parent::boot();
+		static::addGlobalScope('active', function(Builder $builder){
+			$builder->where('active', true);
+		});
+	}
+}
+
+示例8-23 创建全局作用域类
+<?php
+namespace App\Scores;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Scope;
+
+class ActiveScope implements Scope{
+	public function apply(Builder $builder, Model $model){
+		return $builder->where('active', true);
+	}
+}
+
+示例8-24 应用一个基于类的全局作用域
+<?php
+use App\Scopes\ActiveScope;
+use Illuminate\Database\Eloquent\Model;
+class Contact extends Model{
+	protected static function boot(){
+		parent::boot();
+		static::addGlobalScope(new ActiveScope);
+	}
+}
+
+示例8-25 用 Eloquent 访问器装饰一个已存在的列
+//模型定义
+class Contact extends Model{
+	public function getNameAttribute($value){
+		return $value?: '(No name provided)';
+	}
+}
+//使用访问器
+$name = $contact->name;
+
+示例8-26 使用 Eloquent 访问器为不存在的backing列定义属性
+//模型定义
+class Contact extends Model{
+	public function getFullNameAttribute(){
+		return $this->first_name . ' ' . $this->last_name;
+	}
+}
+//使用访问器
+$fullName = $contact->full_name;
+
+示例8-27 通过Eloquent修改器对属性值的装饰设置
+//定义修改器
+class Order extends Model{
+	public function setAmountAttribute($value){
+		$this->attributes['amount'] = $value > 0? $value:0;
+	}
+}
+
+//使用修改器
+$order->amount = '15';
+
+示例8-28 通过Eloquent修改器设置不存在属性的值
+//定义修饰器
+class Order extends Model{
+	public function setWorkgroupNameAttribute($workgroupName){
+		$this->attributes['email']="{$workgroupName}@ourcompany.com";
+	}
+}
+//使用修改器
+$order->workgroup_name = 'jstott';
+
+
+示例8-29 在 Eloquent模型中使用属性转化器
+class Contact{
+	protected $casts = [
+		'vip' => 'boolean',
+		'children name' => 'array',
+		'bitthday' => 'date',
+	];
+}
+
+示例8-30 定义会被转换为timestamps类型的列
+class Contact{
+	protected $dates = [
+		'met_at'
+	];
+}
+
+示例8-31 自定义 Eloquent模型中的集合类
+...
+class OrderCollection extends Collection{
+	public function sumBillableAmount(){
+		return $this->reduce(function ($carry,$order){
+			return $carry+($order->billable? $order->amount:0);
+		},0);
+	}
+}
+...
+class Order extends Model{
+	public function newCollection(array $models = []){
+		return new OrderCollection($models);
+	}
+}
+
+示例8-32 从路由中直接返回JSON
+//routes/web.php
+Route::get('api/contacts', function(){
+	return Contact::all();
+});
+
+示例8-33 定义一对一关系
+class Contact extends Model{
+	public function phoneNumber(){
+		return $this->hasOne(PhoneNumber::class);
+	}
+}
+
+
+示例8-34 定义反向的一对一关系
+class PhoneNumber extends Model{
+	public function contact(){
+		return $this->belongsTo(Contact::class);
+	}
+}
+示例8-35 定义一个一对多关系
+class User extends Model{
+	public function contacts(){
+		return $this-->hasMany(Contact::class);
+	}
+}
+
+示例8-36 定义一对多反向关系
+class Contact extends Model{
+	public function user(){
+		return $this->belongsTo(User::class);
+	}
+}
+
+示例8-37 定义远程一对多关系
+class User extends Model{
+	public function phoneNumbers(){
+		return $this->hasManyThrough(PhoneNumber::class,Contact::class);
+	}
+}
+
+示例8-38 定义多对多关系
+class User extends Model{
+	public function contacts(){
+		return $this->belongsToMany(Contact::class);
+	}
+}
+
+示例8-39 定义反向多对多关系
+class Contact extends Model{
+	public function users(){
+		return $this->belongsToMany(User::class);
+	}
+}
+
+示例8-40 在多对多关系中双向访问关联内容
+$user = User::first();
+$user->contacts->each(function ($contact){
+	//进一步操作
+});
+
+$contact = Contact::first();
+$contact->users->each(function ($user){
+	//
+});
+
+$donors = $user->contacts()->where('status', 'donor')->get();
+
+
+示例8-41 在透视表中添加字段
+public function contacts(){
+	return $this->belongsToMany(Contact::class)
+		->withTimestamps()
+		->withPrivot('staus', 'preferred_greeting');
+}
+
+示例8-42 从关联内容的透视条目中获取数据
+$user = User::first();
+$user->contacts->each(function($contact){
+	echo sprintf(
+		'Contact associated with this user at: %s',
+		$contact->pivot->created_at;
+	);
+});
+
+示例8-43 从多台评分系统中创建模型
+class Star extends Model{
+	public function starrable(){
+		return $this->morphosTo();
+	}
+}
+class Contact extends Model{
+	public function stars(){
+		return $this->morphMany(Star::class, 'starrable');
+	}
+}
+
+class Event extends Model{
+	public function stars(){
+		return $this->morphMany(Star::class, 'starrable');
+	}
+}
+
+示例8-44 从多态关系中获取实例
+$contact = Contact::first();
+$contact->stars->each(function($star){
+	//
+});
+
+示例8-45 从多态实例中获取目标
+$stars = Star::all();
+$stars->each(function($star){
+	var_dump($star->starrable);
+});
+
+示例8-46 继承多态系统来区分用户
+class star extends Model{
+	public function starrable(){
+		return $this->morphosTo;
+	}
+	public function user(){
+		return $this->belongsTo(User::class)l
+	}
+}
+
+class User extends Model{
+	public function stars(){
+		return $this->hasMany(Star::class);
+	}
+}
+
+示例8-47 定义多对多的多态状态
+class Contact extends Model{
+	public function tags(){
+		return $this->morphToMany(Tag::class. 'taggable');
+	}
+}
+class Event extends Model{
+	public function tags(){
+		return $this->morphToMany(Tag::class, 'taggable')
+	}
+}
+
+class Tag extends Model{
+	public function contacts(){
+		return $this->morphedByMany(Contact::class, 'taggable');
+	}
+	
+	public function events(){
+		return $this->morphedByMany(Event::class, 'taggable');
+	}
+}
+
+示例8-48 从多对多多态关系双向访问关联条目
+$contact = Contact::first();
+$contact->tags->each(function($tag){
+	//
+});
+
+$tag = Tag::first();
+$tag->contacts->each(function($contact){
+	//
+});
+
+
+示例8-49 同步更新父类和子类记录
+class PhoneNumber extends Model{
+	protected $touches = ['contact'];
+	public function contact(){
+		return $this->belongsTo(Contact::class);
+	}
+}
+
+示例8-50 
+$contacts = Contact::all();
+
+foreach ($contacts as $contact){
+	foreach($contact->phone_numbers as $phone_number){
+		echo $phone_number->number;
+	}
+}
+
+示例8-51 为 Eloquent事件绑定监听器
+class AppServerProvider extends ServiceProvider{
+	public function boot(){
+		$thirdPartyService = new SomeThirdPartyService;
+		Contact::creating(function($contact) use ($thirdPartyService){
+			try{
+				$thirdPartyService->addContact($contact);
+			}catch(Exception $e){
+				Log::error('Failed adding contact to thirdPartyService; cancelled.');
+				
+				return false;
+			}
+		
+		});
+	}
+}
