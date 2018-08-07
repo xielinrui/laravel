@@ -1,0 +1,29 @@
+/* CSS Document */
+
+.banner{ width:100%; height:554px; overflow:hidden; position:relative;font-size:0}
+.b-img{ height:554px;  position:absolute; left:0; top:0;}
+.b-img a{ display:block; height:554px; float:left;}
+.b-list{  position:relative; margin:0 auto;z-index:1;margin-top:520px;}
+.b-list span{ display:block;cursor:pointer; width:14px; height:14px; border-radius:50%; border:3px solid #fff; float:left; margin:0 5px; _margin:0 3px;}
+.b-list .spcss{border:3px solid #D64416;}
+.bar-left{ position:absolute; z-index:1; display:block; width:100px; height:100%; left:0px; background:none; top:0px; }
+.bar-right{ position:absolute;z-index:1; display:block; width:100px; height:100%; right:0px; background:none; top:0px; }
+.bar-left em{ display:block; width:50px; height:100px; background:url(../images/arrow.png) 0px 0px no-repeat; margin:0 auto; margin-top:227px;}
+.bar-right em{ display:block; width:50px; height:100px; background:url(../images/arrow.png) -50px 0px no-repeat; margin:0 auto; margin-top:227px;}
+.bar-left .emcss{ background-position:0px -100px;}
+.bar-right .emcss{ background-position:-50px -100px;}
+
+
+/*浮动客服*/
+#floatDivBoxs{width:170px;background:#fff;position:fixed;bottom:40px;right:0;z-index:999;}
+#floatDivBoxs .floatDtt{width:100%;height:45px;line-height:45px; background:#f08326;color:#fff;font-size:18px;text-indent:22px;position:relative;}
+#floatDivBoxs .floatDqq{padding:0 14px;}
+#floatDivBoxs .floatDqq li{height:45px;line-height:45px;font-size:15px;border-bottom:1px solid #e3e3e3; padding:0 0 0 50px;}
+#floatDivBoxs .floatDtxt{font-size:18px;color:#333;padding:12px 14px;}
+#floatDivBoxs .floatDtel{padding:0 0 15px 10px;}
+#floatDivBoxs .floatDtel img{display:block;}
+#floatDivBoxs .floatDbg{width:100%;height:20px;background:url(../images/online_botbg.jpg) no-repeat;box-shadow:-2px 0 3px rgba(0,0,0,0.25);}
+.floatShadow{ background:#fff;box-shadow:-2px 0 3px rgba(0,0,0,0.25);}
+#rightArrow{width:50px;height:45px;background:url(../images/online_arrow.jpg) no-repeat;position:fixed;bottom:150px;right:170px;z-index:999;}
+#rightArrow a{display:block;height:45px;}
+li{list-style:none}

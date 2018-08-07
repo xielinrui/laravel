@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>重庆邮电大学ACM协会</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="css/bootstrap.css" rel="stylesheet" />
+<link href="css/css.css" rel="stylesheet" />
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/banner.js"></script>
+<link href="css/animate.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="row header_box">
+				<a href="index.html"><img src="http://www.cqupt.edu.cn/cqupt/img/logo.png" class="pull-left logo" /></a>
+				<a href="index.html"><img src="./images/acmlogo.PNG" class="pull-right logo" style="height: 60px"/></a>
+			</div>
+		</div>
+		
+	</div>
+
+	<!-------登陆------------->
+	<div class="banner_box">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-4 pull-right">
+					<div class="logo_in">
+						<h2>立即注册</h2>
+						<ul>
+							<li id="email" class="">
+								<input type="text" class="form-control email" placeholder="设置您的邮箱"/>
+							</li>
+							<li class="verify" id="verkey">
+								<input type="text" class="form-control input-text-style-1 yanzhengma" placeholder="请输入右侧验证码" />
+								<!--<img src="images/xx.png" />-->
+								<button type="submit" class="btn btn-danger emailbtn" style="width: 150px ;margin-left: 10px;height: 34px">获取邮箱验证码</button>
+								<div class="clear"></div>
+							</li>
+							<li id="password">
+								<input type="password" class="form-control password" placeholder="设置您的账号密码" />
+							</li>
+							<li id="querenpass">
+								<input type="password" class="form-control password2" placeholder="确认账号密码" />
+							</li>
+							<li id="name">
+								<input type="text" class="form-control name" placeholder="输入名字" />
+							</li>
+							<li id="xuehao">
+								<input type="text" class="form-control xuehao" placeholder="输入学号" />
+							</li>
+							<li id="zhuanye">
+								<input type="text" class="form-control zhuanye" placeholder="输入专业" />
+							</li>
+							<li id="xueyuan">
+								<input type="text" class="form-control xueyuan" placeholder="输入学院" />
+							</li>
+							<li>
+								<div class="pull-right pass">
+									
+									<a href="logoin.html" class="last_a">已有账户？去登陆</a>	
+								</div>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<button class="btn btn-danger registerbtn">立即注册</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+
+</body>
+<script>
+    var countdown=60;
+    var ver_key = '123';
+    function settime(obj) {
+
+        if (countdown === 0) {
+            obj.removeAttribute("disabled");
+
+            obj.innerText="免费获取验证码";
+            countdown = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.innerText="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
+
+    $(".play").mouseover(function(){
+			$(".play_box").addClass("fadeInUp");
+		});
+	$(".emailbtn").click(function () {
+		var data=$(".email").val();
+		if(data !== ''){
+			$("li:first").removeClass("has-error");
+			settime(this);
+			$.ajax({
+				type:"POST",
+				url:"http://acmapi.cqupt.edu.cn/api/registerCodes/",
+				data:{email:data},
+				datatype: "json",
+				success:function(data){
+				},
+				complete: function(XMLHttpRequest, textStatus){
+					var tt = XMLHttpRequest.responseText;
+					var tmp = '('+tt+')';
+					var json = eval(tmp);
+					var code = json.status_code;
+					console.log(code);
+					if(code === 200){
+						ver_key = json.verkey;
+					}
+				},
+				error: function(){
+				}
+			});
+		}else{
+			$("li:first").addClass("has-error");
+		}
+	});
+	$(".registerbtn").click(function () {
+	    console.log("123");
+		var yanzhengma = $(".yanzhengma").val();
+		var email = $(".email").val();
+		if (email===""){
+            $("li:first").addClass("has-error");
+		}else{
+            $("#email").removeClass("has-error");
+            if(yanzhengma === ''){
+                $("#verkey").addClass("has-error");
+            }else{
+                $("#verkey").removeClass("has-error");
+                var pass1 = $(".password").val();
+                var pass2 = $(".password2").val();
+                if (pass1 !== pass2 || pass1 === ""){
+                    $("#querenpass").addClass("has-error");
+                }else{
+                    $("#querenpass").removeClass("has-error");
+                    var name = $(".name").val();
+                    if(name===""){
+                        $("#name").addClass("has-error");
+                    }else{
+                        $("#name").removeClass("has-error");
+                        var xuehao = $(".xuehao").val();
+                        if(xuehao===""){
+                            $("#xuehao").addClass("has-error");
+                        }else{
+                            $("#xuehao").removeClass("has-error");
+                            var xueyuan = $(".xueyuan").val();
+                            if(xueyuan === ""){
+                                $("#xueyuan").addClass("has-error");
+                            }else{
+                                $("#xueyuan").removeClass("has-error");
+                                var zhuanye = $(".zhuanye").val();
+                                if(zhuanye===""){
+                                    $("#zhuanye").addClass("has-error");
+                                }else{
+                                    $("#zhuanye").removeClass("has-error");
+                                    //
+                                    $.ajax({
+                                        type:"POST",
+                                        url:"http://acmapi.cqupt.edu.cn/api/users/",
+                                        data:{verification_key:ver_key,schoolid:xuehao,email:email,password:pass2,verification_code:yanzhengma,name:name,xueyuan:xueyuan,zhuanye:zhuanye},
+                                        datatype: "json",
+                                        success:function(data){
+                                            console.log(11111111);
+                                        },
+                                        complete: function(XMLHttpRequest, textStatus){
+                                            var tt = XMLHttpRequest.responseText;
+                                            var tmp = '('+tt+')';
+                                            console.log(tmp);
+                                            var json = eval(tmp);
+                                            console.log(json);
+                                            var code = json.status_code;
+                                            console.log(code);
+                                            if(code === 200){
+                                                window.location.href = "http://acm.cqupt.edu.cn/logoin.html";
+                                            }else{
+                                                console.log(json.info);
+											}
+                                        },
+                                        error: function(){
+                                            console.log(2222222);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+		}
+
+    });
+	</script>
+</html>

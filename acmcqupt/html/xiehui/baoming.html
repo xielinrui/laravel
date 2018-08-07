@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>重庆邮电大学ACM协会</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/css.css" rel="stylesheet" />
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <link href="css/animate.min.css" rel="stylesheet" />
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<style type="text/css">-->
+        <!---->
+    <!--</style>-->
+</head>
+
+<body>
+    <div class="header">
+        <div class="container" >
+            <div class="row header_box">
+                <a href="index.html"><img src="http://www.cqupt.edu.cn/cqupt/img/logo.png" class="pull-left logo" /></a>
+                <a href="index.html"><img src="./images/acmlogo.PNG" class="pull-right logo" style="height: 60px"/></a>
+            </div>
+
+        </div>
+        <div class="nav_box">
+            <div class="container warp">
+                <ul class="pull-left">
+                    <li class="ac">
+                        <a href="index.html">
+                            <i class="icon iconfont">&#xe606;</i>
+                            ACM赛事
+                        </a>
+                    </li>
+                    <li>
+                        <a href="news.html">
+                            <i class="icon iconfont">&#xe634;</i>
+                            练习地址
+                        </a>
+                    </li>
+                    <li>
+                        <a href="serve.html">
+                            <i class="icon iconfont">&#xe6cb;</i>
+                            重邮ACM史
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contact.html">
+                            <i class="icon iconfont">&#xe605;</i>
+                            ACM校赛
+                        </a>
+                    </li>
+                    <li>
+                        <a href="record.html">
+                            <i class="icon iconfont">&#xe66c;</i>
+                            管理网站
+                        </a>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <br>
+        <h2 class="text-center" >ACM校赛报名</h2>
+        <br>
+
+        <form class="form-horizontal" role="form">
+
+            <div class="form-group xuehao2">
+                <label for="xuehao" class="col-sm-2 control-label">学号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control xuehao" id="xuehao" placeholder="请输入学号">
+                </div>
+            </div>
+            <div class="form-group email2">
+                <label for="youxiang" class="col-sm-2 control-label">邮箱</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control email" id="youxiang" placeholder="请输入邮箱">
+                </div>
+            </div>
+            <div class="form-group phone2">
+                <label for="phone" class="col-sm-2 control-label">电话号码</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control dianhua" id="phone" placeholder="请输入电话号码">
+                </div>
+            </div>
+            <div class="form-group zhuanye2">
+                <label for="zhuanye" class="col-sm-2 control-label">专业</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control zhuanye" id="zhuanye" placeholder="请输入专业">
+                </div>
+            </div>
+            <div class="form-group xueyuan2">
+                <label for="xueyuan" class="col-sm-2 control-label">学院</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control xueyuan" id="xueyuan" placeholder="请输入学院">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"><a href="#">我已查看并接受ACM比赛规则</a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-danger baomingbtn">确认报名</button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    var cnt = 3;
+    function settime4(obj) {
+        if(cnt===0){
+            cnt=3;
+            window.location.href = "http://acm.cqupt.edu.cn/contact.html";
+        } else{
+            cnt--;
+        }
+        setTimeout(function() {
+                settime4(obj) }
+            ,1000)
+    }
+    $(".baomingbtn").click(function () {
+        var url = window.location.search.substr(1);
+        var name = "id";
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = url.match(reg);
+        var gameid = decodeURI(r[2]);
+        var xuehao = $(".xuehao").val();
+        var email = $(".email").val();
+        var phone = $(".dianhua").val();
+        var zhuanye = $(".zhuanye").val();
+        var xueyuan = $(".xuehao").val();
+        var flag=0;
+
+        if(xuehao===''){
+            $(".xuehao2").addClass("has-error");
+            flag++;
+        }else{
+            $(".xuehao2").removeClass("has-error");
+        }
+        if(email===''){
+            $(".email2").addClass("has-error");
+            flag++;
+        }else{
+            $(".email2").removeClass("has-error");
+        }
+        if(phone===''){
+            $(".phone2").addClass("has-error");
+            flag++;
+        }else{
+            $(".phone2").removeClass("has-error");
+        }
+        if(zhuanye===''){
+            $(".zhuanye2").addClass("has-error");
+            flag++;
+        }else{
+            $(".zhuanye2").removeClass("has-error");
+        }
+        if(xueyuan===''){
+            $(".xueyuan2").addClass("has-error");
+            flag++;
+        }else{
+            $(".xueyuan2").removeClass("has-error");
+        }
+        if(flag===0){
+            $.ajax({
+                type:"POST",
+                url:"http://acmapi.cqupt.edu.cn/api/danrenbaominggame/",
+                data:{gameid:gameid,schoolid:xuehao,email:email,phone:phone,zhuanye:zhuanye,xueyuan:xueyuan},
+                datatype: "json",
+                success:function(data){
+                    console.log(11111111);
+                },
+                complete: function(XMLHttpRequest, textStatus){
+                    var tt = XMLHttpRequest.responseText;
+                    var tmp = '('+tt+')';
+                    console.log(tmp);
+                    var json = eval(tmp);
+                    console.log(json);
+                    var code = json.status_code;
+                    console.log(code);
+                    if(code === 200){
+                        settime4($(".baomingbtn"));
+                    }else{
+                        alert(json.info);
+                    }
+                },
+                error: function(){
+                    console.log(2222222);
+                }
+            });
+        }
+
+    });
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

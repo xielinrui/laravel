@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>重庆邮电大学ACM协会</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="css/bootstrap.css" rel="stylesheet" />
+<link href="css/css.css" rel="stylesheet" />
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/banner.js"></script>
+<link href="css/animate.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="row header_box">
+				<a href="index.html"><img src="http://www.cqupt.edu.cn/cqupt/img/logo.png" class="pull-left logo" /></a>
+				<a href="index.html"><img src="./images/acmlogo.PNG" class="pull-right logo" style="height: 60px"/></a>
+			</div>
+		</div>
+		
+	</div>
+
+	<!-------登陆------------->
+	<div class="banner_box">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-4 pull-right">
+					<div class="logo_in">
+						<h2>用户登陆</h2>
+						<ul>
+							<li id="xuehao">
+								<input type="text" class="form-control xuehao" placeholder="学号" />
+								
+							</li>
+							<li id="password">
+								<input type="password" class="form-control pass" placeholder="密码" />
+							</li>
+							<li>
+								<div class="pull-right pass">
+									<a href="forgetpassword.html">忘记密码？</a>
+									<span>|</span>
+									<a href="enroll.html" class="last_a">注册</a>
+								</div>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<button class="btn btn-danger loginbtn">立即登陆</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+	<script>
+
+        $(".loginbtn").click(function () {
+            var xuehao=$(".xuehao").val();
+            var pass = $(".pass").val();
+            if(xuehao !== '' && pass!==''){
+                $("li:first").removeClass("has-error");
+                $(".pass").removeClass("has-error");
+                $.ajax({
+                    type:"POST",
+                    url:"http://acmapi.cqupt.edu.cn/api/login/",
+                    data:{schoolid:xuehao,password:pass},
+                    datatype: "json",
+                    success:function(data){
+                    },
+                    complete: function(XMLHttpRequest, textStatus){
+                        var tt = XMLHttpRequest.responseText;
+                        var tmp = '('+tt+')';
+                        var json = eval(tmp);
+                        var code = json.status_code;
+                        console.log(code);
+                        if(code === 200){
+                            ver_key = json.verkey;
+                            alert(json.info);
+                        }else {
+                            alert(json.info);
+						}
+                    },
+                    error: function(){
+                    }
+                });
+            }else{
+                $("li:first").addClass("has-error");
+                $(".pass").addClass("has-error");
+            }
+        });
+	</script>
+</html>

@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>重庆邮电大学ACM协会</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="css/bootstrap.css" rel="stylesheet" />
+<link href="css/css.css" rel="stylesheet" />
+<script src="js/jquery-1.9.1.min.js"></script>
+<link href="css/animate.min.css" rel="stylesheet" />
+<script src="layer/layer.js"></script>
+    <style type="text/css">
+
+
+
+    </style>
+</head>
+
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="row header_box">
+				<a href="index.html"><img src="http://www.cqupt.edu.cn/cqupt/img/logo.png" class="pull-left logo" /></a>
+				<a href="index.html"><img src="./images/acmlogo.PNG" class="pull-right logo" style="height: 60px"/></a>
+			</div>
+		</div>
+		<div class="nav_box">
+			<div class="container warp">
+				<ul class="pull-left">
+					<li class="ac">
+						<a href="index.html">
+							<i class="icon iconfont">&#xe606;</i>
+							ACM赛事
+						</a>
+					</li>
+					<li>
+						<a href="news.html">
+							<i class="icon iconfont">&#xe634;</i>
+							练习地址
+						</a>
+					</li>
+					<li>
+						<a href="serve.html">
+							<i class="icon iconfont">&#xe6cb;</i>
+							重邮ACM史
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<i class="icon iconfont">&#xe605;</i>
+							ACM校赛
+						</a>
+					</li>
+					<li>
+						<a href="record.html">
+							<i class="icon iconfont">&#xe66c;</i>
+							管理网站
+						</a>
+					</li>
+					<div class="clear"></div>
+				</ul>
+				<!--<div class="logoin pull-right">-->
+					<!--<a href="logoin.html" class="ac">-->
+						<!--<i class="icon iconfont">&#xe60c;</i>-->
+						<!--//登录-->
+					<!--</a>-->
+					<!--<a href="enroll.html" >-->
+						<!--<i class="icon iconfont" >&#xe697;</i>-->
+						<!--注册-->
+					<!--</a>-->
+				<!--</div>-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<br>
+		<h2 class="text-center" >管理员登录</h2>
+		<br>
+		<form class="form-horizontal" role="form">
+
+			<div class="form-group">
+				<label for="xuehao" class="col-sm-2 control-label">账号</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control xuehao" id="xuehao" placeholder="请输入账号">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="youxiang" class="col-sm-2 control-label">密码</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control pass" id="youxiang" placeholder="请输入密码">
+				</div>
+			</div>
+		</form>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button  class="btn btn-danger loginbtn">登录</button>
+			</div>
+		</div>
+
+	</div>
+
+<script>
+	var ver_key = '';
+    $(".loginbtn").click(function () {
+        console.log(33333);
+        var xuehao=$(".xuehao").val();
+        var pass = $(".pass").val();
+        console.log(xuehao);
+        console.log(pass);
+        if(xuehao !== '' && pass!==''){
+            $.ajax({
+                type:"POST",
+                url:"http://acmapi.cqupt.edu.cn/api/adminlogin/",
+                data:{username:xuehao,password:pass},
+                datatype: "json",
+                success:function(){
+                    console.log(11111);
+                },
+                complete: function(XMLHttpRequest, textStatus){
+                    var tt = XMLHttpRequest.responseText;
+                    var tmp = '('+tt+')';
+                    var json = eval(tmp);
+                    var code = json.status_code;
+                    console.log(code);
+                    if(code === 200){
+                        ver_key = json.verkey;
+                        window.location.href = json.info;
+                    }
+                },
+                error: function(){
+                    alert("密码错误");
+                }
+            });
+        }
+    });
+
+    
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

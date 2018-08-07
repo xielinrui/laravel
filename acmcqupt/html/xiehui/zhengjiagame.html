@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>重庆邮电大学ACM协会</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/css.css" rel="stylesheet" />
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <link href="css/animate.min.css" rel="stylesheet" />
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<style type="text/css">-->
+    <!---->
+    <!--</style>-->
+</head>
+
+<body>
+<div class="header">
+    <div class="container" >
+        <div class="row header_box">
+            <a href="index.html"><img src="http://www.cqupt.edu.cn/cqupt/img/logo.png" class="pull-left logo" /></a>
+            <a href="index.html"><img src="./images/acmlogo.PNG" class="pull-right logo" style="height: 60px"/></a>
+        </div>
+
+    </div>
+    <div class="nav_box">
+        <div class="container warp">
+            <ul class="pull-left">
+                <li class="ac">
+                    <a href="index.html">
+                        <i class="icon iconfont">&#xe606;</i>
+                        ACM赛事
+                    </a>
+                </li>
+                <li>
+                    <a href="news.html">
+                        <i class="icon iconfont">&#xe634;</i>
+                        练习地址
+                    </a>
+                </li>
+                <li>
+                    <a href="serve.html">
+                        <i class="icon iconfont">&#xe6cb;</i>
+                        重邮ACM史
+                    </a>
+                </li>
+                <li>
+                    <a href="contact.html">
+                        <i class="icon iconfont">&#xe605;</i>
+                        ACM校赛
+                    </a>
+                </li>
+                <li>
+                    <a href="record.html">
+                        <i class="icon iconfont">&#xe66c;</i>
+                        管理网站
+                    </a>
+                </li>
+                <div class="clear"></div>
+            </ul>
+            <!--<div class="logoin pull-right">-->
+                <!--<a href="logoin.html" class="ac">-->
+                    <!--<i class="icon iconfont">&#xe60c;</i>-->
+                    <!--//登录-->
+                <!--</a>-->
+                <!--<a href="enroll.html" >-->
+                    <!--<i class="icon iconfont" >&#xe697;</i>-->
+                    <!--注册-->
+                <!--</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<div class="container">
+    <br>
+    <h2 class="text-center" >创建ACM校赛</h2>
+    <br>
+
+    <form class="form-horizontal" role="form">
+        <div class="form-group gamename2">
+            <label for="game" class="col-sm-2 control-label">竞赛名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control gamename" id="game" placeholder="请输入竞赛名称">
+            </div>
+        </div>
+        <div class="form-group fuzeren2">
+            <label for="xuehao" class="col-sm-2 control-label">负责人</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control fuzeren" id="xuehao" placeholder="请输入负责人">
+            </div>
+        </div>
+        <div class="form-group connect2">
+            <label for="youxiang" class="col-sm-2 control-label">联系方式</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control connect" id="youxiang" placeholder="请输入联系方式">
+            </div>
+        </div>
+        <div class="form-group gametime2">
+            <label for="phone" class="col-sm-2 control-label">时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control gametime" id="phone" placeholder="请输入时间（like 2018.09.16 15.0.0）">
+            </div>
+        </div>
+        <div class="form-group address2">
+            <label for="zhuanye" class="col-sm-2 control-label">地点</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control address" id="zhuanye" placeholder="请输入地点">
+            </div>
+        </div>
+        <div class="form-group origanizetion2">
+            <label for="xueyuan" class="col-sm-2 control-label">组织单位</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control origanizetion" id="xueyuan" placeholder="请输入组织单位">
+            </div>
+        </div>
+        <div class="form-group guize2">
+            <label for="guize" class="col-sm-2 control-label">规则</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control guize" id="guize" placeholder="请输入规则">
+            </div>
+        </div>
+        <div class="form-group news2">
+            <label for="gonggao" class="col-sm-2 control-label">最新公告</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control news" id="gonggao" placeholder="请输入最新公告">
+            </div>
+        </div>
+        <div class="form-group adminpass2">
+            <label for="password" class="col-sm-2 control-label">管理员密码</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control adminpass" id="password" placeholder="请输入管理员密码">
+            </div>
+        </div>
+
+    </form>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-danger creategame">上传创建信息</button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+    $(".creategame").click(function () {
+        var gamename = $(".gamename").val();
+        var adminpass = $(".adminpass").val();
+        var news = $(".news").val();
+        var guize = $(".guize").val();
+        var origanizetion = $(".origanizetion").val();
+        var gametime = $(".gametime").val();
+        var connect = $(".connect").val();
+        var fuzeren = $(".fuzeren").val();
+        var address = $(".address").val();
+        var flag = 0;
+        if(gamename===''){
+            $(".gamename2").addClass("has-error");
+            flag++;
+        }else{
+            $(".gamename2").removeClass("has-error");
+        }
+        if(adminpass===''){
+            $(".adminpass2").addClass("has-error");
+            flag++;
+        }else{
+            $(".adminpass2").removeClass("has-error");
+        }
+        if(news===''){
+            $(".news2").addClass("has-error");
+            flag++;
+        }else{
+            $(".news2").removeClass("has-error");
+        }
+        if(guize===''){
+            $(".guize2").addClass("has-error");
+            flag++;
+        }else{
+            $(".guize2").removeClass("has-error");
+        }
+        if(origanizetion===''){
+            $(".origanizetion2").addClass("has-error");
+            flag++;
+        }else{
+            $(".origanizetion2").removeClass("has-error");
+        }
+        if(gametime===''){
+            $(".gametime2").addClass("has-error");
+            flag++;
+        }else{
+            $(".gametime2").removeClass("has-error");
+        }
+        if(connect===''){
+            $(".connect2").addClass("has-error");
+            flag++;
+        }else{
+            $(".connect2").removeClass("has-error");
+        }
+        if(fuzeren===''){
+            $(".fuzeren2").addClass("has-error");
+            flag++;
+        }else{
+            $(".fuzeren2").removeClass("has-error");
+        }
+        if(address===''){
+            $(".address2").addClass("has-error");
+            flag++;
+        }else{
+            $(".address2").removeClass("has-error");
+        }
+        if(flag===0){
+            $.ajax({
+                type:"POST",
+                url:"http://acmapi.cqupt.edu.cn/api/creategame/",
+                data:{gamename:gamename,fuzeren:fuzeren,fuzerenphone:connect,gametime:gametime,address:address,origanizetion:origanizetion,guize:guize,news:news},
+                datatype: "json",
+                success:function(data){
+                    console.log(11111111);
+                },
+                complete: function(XMLHttpRequest, textStatus){
+                    var tt = XMLHttpRequest.responseText;
+                    var tmp = '('+tt+')';
+                    console.log(tmp);
+                    var json = eval(tmp);
+                    console.log(json);
+                    var code = json.status_code;
+                    console.log(code);
+                    if(code === 200){
+                        window.location.href = "http://acm.cqupt.edu.cn/adminshowallbaoming.html";
+                    }else{
+                        alert("失败请重试");
+                    }
+                },
+                error: function(){
+                    console.log(2222222);
+                }
+            });
+        }
+
+
+
+
+    });
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

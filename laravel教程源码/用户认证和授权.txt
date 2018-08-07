@@ -1,0 +1,78 @@
+示例9-1 Laravel默认的用户迁移
+Schema::create('users', funtion(Blueptint $table){
+	$table->increment('id');
+	$table->string('name');
+	$table->string('email')->unique();
+	$table->string('password');
+	$table->rememberToken();
+	$table->timestamps();
+});
+
+示例9-2 Laravel默认的用户模型
+<?php
+//App\User
+namespace App;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable
+
+class User extends Authenticatable{
+	use Notifiable;
+	protected $fillable = [
+		'name','email','password',
+	];
+	protected $hidden = [
+		'password','remember_token',
+	];
+}
+
+<?php// Illuminate\Foundation\Auth\User
+namespace Illuminate\Foundation\Auth;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Passowrds\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+class User extends Model implements AuthenticatableContract,AuthorizableContract,CanResetPasswordContract{
+	use Authenticatable,Authorizable,CanResetPassword;
+}
+
+示例9-3 在控制器中使用auth()全局助手
+public funtion dashboard(){
+	if(auth()->guest()){
+		return redirect('sign-up');
+	}
+	return view('dashboard')
+		->with('user',auth()->user());
+}
+
+示例9-4 Laravel默认的注册控制器
+...
+class RegisterController extends Controller{
+	use RegistersUsers;
+	protected $redirectTo = '/home';
+	...
+	protected funtion validator(array $data){
+		return Validator::make($data,[
+			'name' => 'required|max:255',
+			'email' => 'required|email|max:255|unique:users',
+			'password' => 'required|min:6|confirmed',
+		]);
+	}
+	
+	protected funtion create(array $data){
+		return User::create([
+			'name' => $data['name'],
+			'email' => $data['email'],
+			'password' => bcrypt($data['password']),
+		]);
+	}
+}
+
+示例9-5 Auth::routes()提供的路由
+//认证路由
+$this->get('login', 'Auth\LoginController@showLoginForm');
+$this->post('login', 'Auth\LoginController@login');
+$this->get('logout', 'Auth\LoginController@logout');

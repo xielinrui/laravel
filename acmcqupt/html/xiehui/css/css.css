@@ -1,0 +1,221 @@
+@charset "utf-8";
+/* CSS Document */
+body{font-family:"微软雅黑", "Hiragino Sans GB", "Microsoft YaHei", tahoma, arial, simsun, ""}
+ul, ol{padding:0px;margin: 0px;}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,p{margin:0;padding:0;}
+a:hover{text-decoration:none;}
+a:link{text-decoration:none;}
+.clear{clear:both}
+.border_lt{border-left:1px #dfdfdf solid;}
+.border_rt{border-right:1px #dfdfdf solid;}
+.container{width:1170px;}
+
+/*******************首页***************/
+
+.header_box{padding:20px 0px;}
+.logo{display:block;}
+.call{padding-top:15px;}
+.call ul{}
+.call li{ color: #777;list-style: none;float: left;font-weight: bold;padding: 0px 70px;font-size: 15px;position: relative;}
+.call li i{position: absolute;display: block; left: 21px; top:0px;font-size: 30px;color: #AAAAAA}
+.nav_box{background: #100F17}
+.warp{background: #100F17}
+.warp ul{}
+.warp li{float: left;list-style: none;transition: all .3s linear}
+.warp a{display:block;color: #fff; line-height: 45px;padding: 0px 30px;padding-left: 46px; text-decoration: none;font-size: 15px;position:relative;}
+.warp a i{position:absolute;left: 27px;top:15px;line-height: 16px}
+.warp a:hover{text-decoration: none !important}
+.ac{background:#D64416;}
+.warp li:hover{background:#D64416}
+.logoin a{text-decoration: none;float: left}
+.logoin a:hover{background: #ED7A54;text-decoration: none}
+
+.play{background: url(../images/erweima2.png) 15px 0px no-repeat;cursor: pointer;position: relative;}
+.play_box{padding: 15px;background: #333333;border-radius: 5px;position:absolute;z-index: 1000;width: 291px;left: -160px;top:64px;opacity: 0.9;display: none}
+.play:hover .play_box{display:block !important;opacity: 0.9 !important}
+.play_box .box{text-align: center;margin: 15px;float: left}
+.play_box .box h4{padding:15px 0px;color: #fff;font-size: 16px}
+.play_box span{
+	    display: block;
+    width: 0px;
+    height: 0;
+    border-bottom: 19px #333333 solid;
+    border-left: 24px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    top: -18px;
+    right: 40px;
+}
+
+
+.title{text-align: center;padding: 40px 0;color: #666}
+.title p{font-size: 18px;}
+.title h1{font-size: 30px;color: #E04028;padding: 20px 0px;}
+.title span{font-size:16px;line-height: 30px}
+
+.who{}
+.who .ig{float: left;}
+.who .ig img{}
+.who .ron{float: left}
+.who .ron ul{padding-left: 40px;padding-top: 50px}
+.who .ron li{list-style: none;padding: 10px 0px;}
+.who .ron img{display: block;float: left;}
+.who .ron p{float: left;line-height: 40px;padding-left: 15px;font-size: 16px;color: #666;}
+
+
+.location{text-align: center;padding: 40px 0px;}
+.location img{}
+.location p{color: #BBBCBC;font-size: 30px;font-weight:bold;line-height: 80px}
+.location span{color: #BBBCBC;}
+
+.news{padding: 30px 0px;}
+.news h4{font-weight:bold;color: #555}
+.news span{color: #E04028;font-size: 16px;font-weight:bold;line-height: 40px}
+.news p{color: #666}
+.news button{margin-top:30px;}
+
+/*****footer底部版权*******/
+.footer{ background:#333333; margin-top:20px;  color:#fff;}
+.footer .box{ padding:40px}
+.footer .box h4{ padding:20px 0px}
+.footer .box p{}
+.footer .box a{ display:block; color:#fff;}
+.copyright{ background:#222222 ; text-align:center; line-height:40px}
+.copyright span{ font-size:14px; margin:0px 10px;}
+.ig_d{margin-right: 40px;}
+
+/******************服务介绍*****************/
+
+.serve{padding: 100px 0px;}
+.serve .serve_ig{float: left;width: 450px;text-align: center}
+.serve .serve_ig img{}
+.serve .serve_content{float: left;padding-left: 100px;width: 585px;}
+.serve .serve_content h1{font-size: 25px;color: #333;line-height: 40px; padding: 15px 0px;}
+.serve .serve_content p{color: #555;font-size: 18px;line-height: 30px}
+.serve .serve_content button{margin-top:30px;}
+
+
+
+/******************服务中心*****************/
+
+.catalogue{ padding: 0px 0px;border-bottom: 1px #dfdfdf solid;}
+.catalogue p{ color: #666; font-size: 22px;padding: 15px 0px}
+.catalogue a{ color: #666; font-size: 16px; border: 1px #dfdfdf solid; border-radius:4px;padding:10px 15px; text-decoration: none;display: inline-block;margin:10px 4px;transition: all .3s linear}
+.catalogue a:hover{background:#D64416 ;color: #fff;border: 1px #D64416 solid}
+.catalogue  .ac{ background:#D64416 ; color: #fff;}
+
+/******************北斗卫星定位*****************/
+
+.serve_box{margin-top: 50px;}
+.serve_lf{background: #333333;border-radius: 5px;}
+.serve_lf ul{padding: 20px;}
+.serve_lf li{list-style: none;}
+.serve_lf a{color: #fff;font-size:16px;line-height: 30px;display: block;border-radius:4px;padding: 5px 15px;transition: all .3s linear}
+.serve_lf a:hover{color:#D64416;padding-left: 20px;}
+.ac_s{color:#D64416 !important}
+
+.serve_ron{}
+.serve_ron h3{padding-bottom:15px;border-bottom: 1px #dfdfdf solid;margin-bottom: 30px;}
+.serve_ron p{text-indent: 30px;font-size: 16px;color: #777;line-height: 30px;}
+.serve_ron img{display:block;margin: auto;padding: 30px 0px;}
+
+
+/******************新闻资讯*****************/
+.news_box{padding:20px 10px;border-bottom: 1px #dfdfdf solid;}
+
+.news_ds{padding-top: 30px;}
+.news_ds h3{text-align: center;padding: 15px 0px;border-bottom: 1px #dfdfdf solid;margin-bottom: 30px}
+.news_ds span{padding: 15px; font-size: 16px; color: #888;}
+.news_ds p{text-indent: 30px;font-size: 16px; color: #777;line-height: 30px;}
+.news_ds img{display:block;margin: auto;padding: 30px 0px;}
+
+.news_lis h1{font-size: 22px; color: #777777;border-bottom: 1px #777777 dashed; padding-top: 50px; padding-bottom: 5px;margin-bottom: 30px}
+.news_lis li{}
+.news_lis li a{text-decoration: none;color:#636262;display: block;line-height: 30px;font-size: 16px;}
+.news_lis li a:hover{color:#D64416}
+.news_lis li a span{}
+
+
+/******************联系我们*****************/
+
+.title_3{ text-align:center; margin-top:60px;}
+.title_3 h3{ color:#413C3C; font-size:28px; padding-bottom: 10px}
+.title_3 p{ color:#666;  line-height:35px; margin:auto; font-size: 16px;}
+.title_3 .list_line{ width:40px; height:2px; background:#D64416; margin:auto;}
+
+.contact{ text-align: center; border-bottom: 1px #dfdfdf solid}
+.contact>div{padding-top: 50px; padding-bottom: 100px;}
+.contact img{}
+.contact h1{ font-size: 22px; line-height: 50px;}
+.contact p{ font-size: 16px; line-height: 25px; color: #666}
+
+.idea{}
+.idea ul{}
+.idea li{padding:5px;list-style: none;}
+.idea li input{height:40px;}
+.BMapLabel{max-width:inherit}
+.BMapLabel{max-width: none}
+.BMap_cpyCtrl{display:none}
+.anchorBL{ display:none}
+
+.contact_box{padding-top: 25px;}
+.contact_box>div{ color: #777;font-size: 16px}
+.contact_box i{float: left; font-size: 62px}
+.contact_box span{float: left;padding-top: 20px;padding-left: 25px;}
+
+
+/******************通行记录-用户信息*****************/
+.record p{font-size: 16px;padding: 19px;color: #D64416}
+
+.record_ron h3{padding-bottom:15px;border-bottom: 1px #dfdfdf solid;margin-bottom: 30px;}
+.table_box th{text-align: center;background: #f3f3f3}
+.table_box button{width:100%}
+.state h4{font-size: 16px; font-weight: bold;line-height: 50px}
+.state p{font-size: 16px; color: #333;line-height: 30px}
+.soso{padding-top:30px;}
+.soso>h3{padding-bottom:15px;border-bottom: 1px #dfdfdf solid;margin-bottom: 30px;}
+.soso h1{}
+.soso ul{}
+.soso li{list-style: none;margin-top: 30px;}
+.soso li h3{margin-bottom: 30px;}
+.soso li select{width: 170px;display: inline-block;margin: 15px 0px;}
+.soso li button{margin: 0px 10px;}
+.soso li input{width: 170px;display: inline-block;margin: 15px 0px;}
+
+#dv{padding: 25px;}
+#dv ul{}
+#dv li{list-style: none;margin-top: 50px;}
+#dv label{width: 18%}
+#dv input{display: inline-block;width: 79%}
+#dv button{width: 50%;display: block;margin: auto}
+.txt p{font-size: 16px;line-height: 34px;}
+.txt span{color: #D64416;font-size: 22px;padding-left: 15px;padding-right: 15px;}
+.re{margin: 30px 0px;}
+.re p{font-size: 18px;}
+.re span{color: #D64416;font-size: 22px;padding-left: 15px;padding-right: 15px;}
+
+
+
+/*******************登陆注册***********************/
+
+.banner_box{width: 100%;height: 560px;background: url(../images/logoin.png) center no-repeat;}
+.banner_box
+
+.logo_in{background: #fff;margin-top: 20px;}
+.logo_in h2{color:#fff;font-size: 22px ;background: #D64416;line-height: 45px; text-align: center;background-color: #FE5450;}
+.logo_in ul{padding: 40px 20px;}
+.logo_in li{list-style: none;padding-bottom: 15px;}
+.logo_in li input{}
+.pass{color: #adabab}
+.last_a{color:#FE5450}
+.last_a:hover{color:#FE5450}
+.last_a:link{color:#FE5450}
+.logo_in li  button{width:100%;font-size: 16px;}
+
+.verify input{width:50%;float: left;}
+.verify img{display: block;float: left;margin-left: 20px;} 
+
+
+
+
+

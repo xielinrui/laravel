@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>重庆邮电大学ACM协会</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="css/bootstrap.css" rel="stylesheet" />
+<link href="css/css.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<script src="js/jquery-1.9.1.min.js"></script>
+<link href="css/animate.min.css" rel="stylesheet" />
+<script src="js/banner.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+
+
+
+    </style>
+</head>
+
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="row header_box">
+				<a href="index.html"><img src="http://www.cqupt.edu.cn/cqupt/img/logo.png" class="pull-left logo" /></a>
+				<a href="index.html"><img src="./images/acmlogo.PNG" class="pull-right logo" style="height: 60px"/></a>
+			</div>
+		</div>
+		<div class="nav_box">
+			<div class="container warp">
+				<ul class="pull-left">
+					<li class="ac">
+						<a href="index.html">
+							<i class="icon iconfont">&#xe606;</i>
+							ACM赛事
+						</a>
+					</li>
+					<li>
+						<a href="news.html">
+							<i class="icon iconfont">&#xe634;</i>
+							练习地址
+						</a>
+					</li>
+					<li>
+						<a href="serve.html">
+							<i class="icon iconfont">&#xe6cb;</i>
+							重邮ACM史
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<i class="icon iconfont">&#xe605;</i>
+							ACM校赛
+						</a>
+					</li>
+					<li>
+						<a href="record.html">
+							<i class="icon iconfont">&#xe66c;</i>
+							管理网站
+						</a>
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<br>
+	<h2 class="text-center">重邮ACM校赛</h2>
+	<br>
+	<table class="table table-striped table-bordered table-hover" style="width: 1300px; margin: auto ;">
+		<thead>
+			<tr class="success">
+				<th>id</th>
+				<th>比赛名</th>
+				<th>负责人</th>
+				<th>联系方式</th>
+				<th>时间</th>
+				<th>地点</th>
+				<th>组织单位</th><th>规则</th><th>参与人数</th><th>最新公告</th><th>比赛状态</th><th>我要参数</th>
+			</tr>
+		</thead>
+		<tbody class="tbodyshowgames">
+
+		</tbody>
+	</table>
+
+</body>
+<script>
+    $(document).ready(function(){
+        //向后端发起请求
+        $.ajax({
+            type:"POST",
+            url:"http://acmapi.cqupt.edu.cn/api/showallgames/",
+            data:{},
+            datatype: "json",
+            success:function(data){
+                console.log(11111111);
+            },
+            complete: function(XMLHttpRequest, textStatus){
+                var tt = XMLHttpRequest.responseText;
+                var tmp = '('+tt+')';
+                console.log(tmp);
+                var json = eval(tmp);
+                // console.log(json);
+                var code = json.status_code;
+                if(code === 200){
+                    var tableinfo = json.info;
+                    //渲染表格
+                    var s = '';
+                    for (var i=0;i<tableinfo.length;i++){
+                        s = "<tr class=\"bg-success\"><td>"+tableinfo[i].id+"</td><td>"+tableinfo[i].gamename+"</td><td>"+tableinfo[i].fuzeren+
+                            "</td><td>"+tableinfo[i].fuzerenphone+"</td><td>"+tableinfo[i].gametime+"</td><td>"+tableinfo[i].address+"</td><td>"+tableinfo[i].origanizetion+
+                            "</td><td>"+tableinfo[i].guize+"</td><td>"+tableinfo[i].number+"</td><td>"+tableinfo[i].news+"</td>";
+                        if (tableinfo[i].gamestatus===0){
+                            s = s + "<td>可参赛</td>"+"<td><a href=\"./baoming.html?id="+tableinfo[i].id+"\">我要参赛</a></td>";
+                        }
+                        $(".tbodyshowgames").append(s);
+                    }
+                }else{
+                    console.log(json.info);
+                }
+            },
+            error: function(){
+                console.log(2222222);
+            }
+        });
+    });
+</script>
+
+</html>
